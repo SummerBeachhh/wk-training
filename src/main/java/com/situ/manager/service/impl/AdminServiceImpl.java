@@ -22,15 +22,22 @@ public class AdminServiceImpl implements AdminService {
         //开启分页
         PageHelper.startPage(adminQuery.getPage(), adminQuery.getLimit());
         //查找当前页的数据
-        List<Admin> list = adminMapper.list();
+        //List<Admin> list = adminMapper.list();
+        List<Admin> list = adminMapper.list(adminQuery);
         PageInfo pageInfo = new PageInfo(list);
         //总的数量
-        int totaltCount = (int) pageInfo.getTotal();
-        return new PageResult(0, "", totaltCount, list);
+//        int totaltCount = (int) pageInfo.getTotal();
+//        return new PageResult(0, "", totaltCount, list);
+        int totalCount = (int) pageInfo.getTotal();
+        return new PageResult(0, "", totalCount, list);
     }
 
     @Override
     public void deleteById(Integer id) {
         adminMapper.deleteById(id);
+    }
+    @Override
+    public void add(Admin admin) {
+        adminMapper.add(admin);
     }
 }

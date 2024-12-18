@@ -44,6 +44,10 @@ public class AdminController {
     public String toAdminList() {
         return "admin_list";
     }
+    @RequestMapping("/toAdminAdd")
+    public String toAdminAdd() {
+        return "admin_add";
+    }
 
     @RequestMapping("/deleteById")
     @ResponseBody
@@ -51,6 +55,13 @@ public class AdminController {
         //Alt+Enter
         adminService.deleteById(id);
         return Result.ok("删除成功");
+    }
+
+    @RequestMapping("/add")
+    @ResponseBody
+    public Result add(Admin admin) {
+        adminService.add(admin);
+        return Result.ok("添加成功");
     }
 }
 

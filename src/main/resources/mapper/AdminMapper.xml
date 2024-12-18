@@ -4,13 +4,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.situ.manager.mapper.AdminMapper">
-    <!--List<Admin> list();-->
+    <!--List<Admin> list();  name like '%张%'-->
     <select id="list" resultType="Admin">
         SELECT id,name,password,age,email,phone,dept_id FROM admin
+        <where>
+            <if test="name!=null and name!=''">
+                and name LIKE concat('%', #{name}, '%')
+            </if>
+            <if test="email!=null and email!=''">
+                and email LIKE concat('%', #{email}, '%')
+            </if>
+            <if test="deptId!=null">
+                and dept_id=#{deptId}
+            </if>
+        </where>
     </select>
 
     <delete id="deleteById">
         DELETE FROM admin WHERE id=#{id}
     </delete>
-
+    <!--void add(Admin admin);-->
+    <insert id="add">
+        INSERT INTO admin(name,password,age,email,phone,image,dept_id)
+        VALUES (#{name},#{password},#{age},#{email},#{phone},#{image},#{deptId})
+    </insert>
 </mapper>

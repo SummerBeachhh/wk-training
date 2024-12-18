@@ -10,5 +10,5 @@ public interface AdminService {
     PageResult list(AdminQuery adminQuery);
 
     void deleteById(Integer id);
-
+    void add(Admin admin);
 }

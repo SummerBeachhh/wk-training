@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Title</title>
+	<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+</head>
+<body>
+
+<form class="layui-form layui-form-pane" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" autocomplete="off" placeholder="户名" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="text" name="password" autocomplete="off" placeholder="密码" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门</label>
+        <div class="layui-input-block">
+            <select name="deptId">
+                <option value="1">软件部</option>
+                <option value="2">硬件部</option>
+                <option value="3">测试部</option>
+            </select>
+        </div>
+    </div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">邮箱</label>
+		<div class="layui-input-block">
+			<input type="text" name="email" autocomplete="off" placeholder="户名" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">电话</label>
+		<div class="layui-input-block">
+			<input type="text" name="phone" autocomplete="off" placeholder="户名" class="layui-input">
+		</div>
+	</div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">头像</label>
+        <div class="layui-input-block">
+            <div class="layui-upload-list">
+                <input type="hidden" name="image" id="imageId">
+                <img class="layui-upload-img" id="ID-upload-demo-img" width="150px" height="150px">
+                <div id="ID-upload-demo-text"></div>
+            </div>
+            <button type="button" class="layui-btn" id="uploadId">
+                <i class="layui-icon layui-icon-upload"></i>
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitForm">添加</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+	<script th:src="@{/static/jquery-2.1.4.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/static/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/static/mylayer.js}" type="text/javascript" charset="utf-8"></script>
+
+<script>
+
+    layui.use(['form','upload'], function () {
+        var form = layui.form;
+        var upload = layui.upload;
+
+        // 单图片上传
+        var uploadInst = upload.render({
+            elem: '#uploadId',
+            url: '/upload', // 实际使用时改成您自己的上传接口即可。
+            before: function(obj){
+                // 预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#ID-upload-demo-img').attr('src', result); // 图片链接（base64）
+                });
+            },
+            done: function(result){
+                if (result.code == 0) {
+                    console.log(result);
+                    $('#imageId').val(result.data);
+                } else {
+                    mylayer.errorMsg('上传失败')
+                }
+                $('#ID-upload-demo-text').html('');
+            },
+            error: function(){
+                // 演示失败状态，并实现重传
+                var demoText = $('#ID-upload-demo-text');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            },
+        });
+
+        form.on('submit(submitForm)', function(data){
+            console.log(data.field);
+            $.post(
+                '/admin/add',
+                data.field,
+                function (result) {
+                    console.log(result);
+                    if (result.code == 0) {
+                        mylayer.okMsg(result.msg);
+                        setInterval(function () {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                            window.parent.location.reload();
+                        }, 2000);
+                    }
+                },
+                'json'
+            );
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

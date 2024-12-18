@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface AdminMapper {
     List<Admin> list();
+    void deleteById(int id);
+
 }

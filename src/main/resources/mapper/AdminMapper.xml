@@ -8,4 +8,9 @@
     <select id="list" resultType="Admin">
         SELECT id,name,password,age,email,phone,dept_id FROM admin
     </select>
+
+    <delete id="deleteById">
+        DELETE FROM admin WHERE id=#{id}
+    </delete>
+
 </mapper>

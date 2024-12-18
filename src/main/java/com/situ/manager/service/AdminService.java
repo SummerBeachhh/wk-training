@@ -1,9 +1,14 @@
 package com.situ.manager.service;
 
 import com.situ.manager.pojo.Admin;
+import com.situ.manager.pojo.query.AdminQuery;
+import com.situ.manager.util.PageResult;
 
 import java.util.List;
 
 public interface AdminService {
-    List<Admin> list();
+    PageResult list(AdminQuery adminQuery);
+
+    void deleteById(Integer id);
+
 }

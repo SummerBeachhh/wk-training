@@ -4,8 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.situ.manager.mapper.DeptMapper">
-    <!--List<Admin> list();-->
+    <!--List<Dept> list();  name like '%张%'-->
     <select id="list" resultType="Dept">
         SELECT id,name,address FROM dept
+        <where>
+            <if test="name!=null and name!=''">
+                and name LIKE concat('%', #{name}, '%')
+            </if>
+        </where>
     </select>
+
+    <!--void deleteById(int id);-->
+    <delete id="deleteById">
+        DELETE FROM dept WHERE id=#{id}
+    </delete>
+
+    <!--void add(Dept dept);-->
+    <insert id="add">
+        INSERT INTO dept(name,address)
+        VALUES (#{name},#{address})
+    </insert>
 </mapper>

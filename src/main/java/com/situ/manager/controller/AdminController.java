@@ -63,5 +63,12 @@ public class AdminController {
         adminService.add(admin);
         return Result.ok("添加成功");
     }
+    @RequestMapping("/deleteAll")
+    @ResponseBody
+    public Result deleteAll(Integer[] ids) {
+        //Alt+Enter
+        adminService.deleteAll(ids);
+        return Result.ok("删除成功");
+    }
 }
 

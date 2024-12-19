@@ -129,7 +129,7 @@
                     //[2,4]
                     layer.confirm('真的删除行么', function(index){
                         $.post(
-                            '/admin?method=deleteAll',
+                            '/admin/deleteAll',
                             {'ids': ids},
                             function (result) {
                                 //{code: 0, msg: '删除成功', data: null}

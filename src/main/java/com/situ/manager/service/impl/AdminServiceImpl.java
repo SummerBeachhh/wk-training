@@ -40,4 +40,11 @@ public class AdminServiceImpl implements AdminService {
     public void add(Admin admin) {
         adminMapper.add(admin);
     }
+    @Override
+    public void deleteAll(Integer[] ids) {
+        //delete from student where id in(2,3,45)
+        for (Integer id : ids) {
+            adminMapper.deleteById(id);
+        }
+    }
 }
